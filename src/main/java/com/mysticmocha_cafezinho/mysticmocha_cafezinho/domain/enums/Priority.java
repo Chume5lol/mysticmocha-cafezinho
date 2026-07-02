@@ -1,5 +1,8 @@
 package com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.enums;
 
 public enum Priority {
-
+    
+    HIGH,
+    MEDIUM,
+    LOW
 }

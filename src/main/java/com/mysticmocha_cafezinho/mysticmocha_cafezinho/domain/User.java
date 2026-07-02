@@ -1,6 +1,11 @@
 package com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,7 +18,7 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class User {
+public class User implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +29,9 @@ public class User {
 
     @Column(nullable = false)
     private String lastName;
+
+    @Column(nullable = false)
+    private String nickname;
 
     @JoinColumn(name = "department_id")
     @ManyToOne
@@ -38,16 +46,7 @@ public class User {
     @Column(nullable = false)
     private Boolean enable;
 
-    public User(Integer id, String fistName, String lastName, Department department, LocalDateTime lastLogin,
-            String password, Boolean enable) {
-        this.id = id;
-        this.fistName = fistName;
-        this.lastName = lastName;
-        this.department = department;
-        this.lastLogin = lastLogin;
-        this.password = password;
-        this.enable = enable;
-    }
+    
 
     public void setId(Integer id) {
         this.id = id;
@@ -59,6 +58,10 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public void setDepartment(Department department) {
@@ -75,6 +78,28 @@ public class User {
 
     public void setEnable(Boolean enable) {
         this.enable = enable;
+    }
+    
+    public User(Integer id, String fistName, String lastName, String nickname, Department department,
+            LocalDateTime lastLogin, String password, Boolean enable) {
+        this.id = id;
+        this.fistName = fistName;
+        this.lastName = lastName;
+        this.nickname = nickname;
+        this.department = department;
+        this.lastLogin = lastLogin;
+        this.password = password;
+        this.enable = enable;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public String getUsername() {
+        return this.nickname;
     }
 
     
