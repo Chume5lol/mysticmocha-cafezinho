@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Department;
 
 @Repository
-public interface DepartmentRepository extends JpaRepository<Long, Department>{
+public interface DepartmentRepository extends JpaRepository<Department, Long>{
 
 }

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Notification;
 
 @Repository
-public interface NotificationRepository extends JpaRepository<Long, Notification>{
+public interface NotificationRepository extends JpaRepository<Notification, Long>{
 
 }

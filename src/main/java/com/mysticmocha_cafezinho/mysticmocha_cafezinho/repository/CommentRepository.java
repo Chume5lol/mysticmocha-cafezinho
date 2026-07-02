@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Comment;
 
 @Repository
-public interface CommentRepository extends JpaRepository<Long, Comment>{
+public interface CommentRepository extends JpaRepository<Comment, Long>{
 
 }

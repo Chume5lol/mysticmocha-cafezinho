@@ -7,8 +7,11 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.enums.UserRole;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -43,11 +46,16 @@ public class User implements UserDetails{
     @Column(nullable = false)
     private String password;
 
+    @Column
+    @Enumerated
+    private UserRole role;
+
     @Column(nullable = false)
     private Boolean enable;
 
     
 
+    
     public void setId(Integer id) {
         this.id = id;
     }
@@ -76,12 +84,17 @@ public class User implements UserDetails{
         this.password = password;
     }
 
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
     public void setEnable(Boolean enable) {
         this.enable = enable;
     }
-    
+
+
     public User(Integer id, String fistName, String lastName, String nickname, Department department,
-            LocalDateTime lastLogin, String password, Boolean enable) {
+            LocalDateTime lastLogin, String password, UserRole role, Boolean enable) {
         this.id = id;
         this.fistName = fistName;
         this.lastName = lastName;
@@ -89,6 +102,7 @@ public class User implements UserDetails{
         this.department = department;
         this.lastLogin = lastLogin;
         this.password = password;
+        this.role = role;
         this.enable = enable;
     }
 
@@ -99,7 +113,12 @@ public class User implements UserDetails{
 
     @Override
     public String getUsername() {
-        return this.nickname;
+        return nickname;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     

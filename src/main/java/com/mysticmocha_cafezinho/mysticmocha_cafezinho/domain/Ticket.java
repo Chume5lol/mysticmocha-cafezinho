@@ -50,11 +50,11 @@ public class Ticket {
     @Column
     private LocalDateTime closedAt;
 
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "requester_id")
     @ManyToOne
     private User requester;
 
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "agent_id")
     @ManyToOne
     private User agent;
 
