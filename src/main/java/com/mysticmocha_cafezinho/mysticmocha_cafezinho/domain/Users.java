@@ -36,11 +36,14 @@ public class Users implements UserDetails{
     @Column(nullable = false)
     private String nickname;
 
+    @Column(nullable = false)
+    private String email;
+
     @JoinColumn(name = "department_id")
     @ManyToOne
     private Department department;
 
-    @Column(nullable = false)
+    @Column
     private LocalDateTime lastLogin;
 
     @Column(nullable = false)
@@ -50,7 +53,7 @@ public class Users implements UserDetails{
     @Enumerated
     private UserRole userRole;
 
-    @Column(nullable = false)
+    @Column
     private Boolean enable;
 
     
@@ -70,6 +73,10 @@ public class Users implements UserDetails{
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setDepartment(Department department) {
@@ -93,12 +100,16 @@ public class Users implements UserDetails{
     }
 
 
-    public Users(Long id, String fistName, String lastName, String nickname, Department department,
+    public Users() {
+    }
+
+    public Users(Long id, String fistName, String lastName, String nickname, String email, Department department,
             LocalDateTime lastLogin, String password, UserRole userRole) {
         this.id = id;
         this.fistName = fistName;
         this.lastName = lastName;
         this.nickname = nickname;
+        this.email = email;
         this.department = department;
         this.lastLogin = lastLogin;
         this.password = password;

@@ -31,5 +31,10 @@ public class Department {
         this.name = name;
     }
 
+    public Department() {
+    }
+
+    
+
     
 }
