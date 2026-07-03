@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.User;
+import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Users;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.service.JwtService;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.service.UserDetailsServiceIml;
 
@@ -44,15 +44,15 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String token = auth.substring(7);
 
-        String email = jwtService.extractUsername(token);
+        String nickname = jwtService.extractUsername(token);
 
-        if(email != null &&
+        if(nickname != null &&
             SecurityContextHolder.getContext().getAuthentication()==null){
 
             UserDetails user =
-                    userDetailsService.loadUserByUsername(email);
+                    userDetailsService.loadUserByUsername(nickname);
 
-            if(jwtService.isTokenValid(token,(User)user)){
+            if(jwtService.isTokenValid(token,(Users)user)){
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(

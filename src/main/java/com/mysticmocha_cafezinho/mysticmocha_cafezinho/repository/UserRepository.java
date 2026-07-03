@@ -5,10 +5,10 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.User;
+import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Users;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>{
+public interface UserRepository extends JpaRepository<Users, Long>{
 
-    Optional<User> findByNickname(String nickname);
+    Optional<Users> findByNickname(String nickname);
 }

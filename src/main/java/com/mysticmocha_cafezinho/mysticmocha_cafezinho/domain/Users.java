@@ -21,11 +21,11 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class User implements UserDetails{
+public class Users implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private String fistName;
@@ -48,7 +48,7 @@ public class User implements UserDetails{
 
     @Column
     @Enumerated
-    private UserRole role;
+    private UserRole userRole;
 
     @Column(nullable = false)
     private Boolean enable;
@@ -56,7 +56,7 @@ public class User implements UserDetails{
     
 
     
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -84,17 +84,17 @@ public class User implements UserDetails{
         this.password = password;
     }
 
-    public void setRole(UserRole role) {
-        this.role = role;
+    public void setRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 
-    public void setEnable(Boolean enable) {
-        this.enable = enable;
+    public void setEnable() {
+        this.enable = true;
     }
 
 
-    public User(Integer id, String fistName, String lastName, String nickname, Department department,
-            LocalDateTime lastLogin, String password, UserRole role, Boolean enable) {
+    public Users(Long id, String fistName, String lastName, String nickname, Department department,
+            LocalDateTime lastLogin, String password, UserRole userRole) {
         this.id = id;
         this.fistName = fistName;
         this.lastName = lastName;
@@ -102,8 +102,8 @@ public class User implements UserDetails{
         this.department = department;
         this.lastLogin = lastLogin;
         this.password = password;
-        this.role = role;
-        this.enable = enable;
+        this.userRole = userRole;
+        this.enable = true;
     }
 
     @Override

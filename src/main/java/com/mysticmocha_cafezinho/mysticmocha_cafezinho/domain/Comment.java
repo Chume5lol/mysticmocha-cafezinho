@@ -25,9 +25,9 @@ public class Comment {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "users_id")
     @ManyToOne
-    private User author;
+    private Users author;
 
     @JoinColumn(name = "ticket_id")
     @ManyToOne
@@ -45,7 +45,7 @@ public class Comment {
         this.createdAt = createdAt;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(Users author) {
         this.author = author;
     }
 
@@ -53,7 +53,7 @@ public class Comment {
         this.ticket = ticket;
     }
 
-    public Comment(Long id, String message, LocalDateTime createdAt, User author, Ticket ticket) {
+    public Comment(Long id, String message, LocalDateTime createdAt, Users author, Ticket ticket) {
         this.id = id;
         this.message = message;
         this.createdAt = createdAt;

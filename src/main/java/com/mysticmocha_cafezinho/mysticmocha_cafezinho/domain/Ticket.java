@@ -52,11 +52,11 @@ public class Ticket {
 
     @JoinColumn(name = "requester_id")
     @ManyToOne
-    private User requester;
+    private Users requester;
 
     @JoinColumn(name = "agent_id")
     @ManyToOne
-    private User agent;
+    private Users agent;
 
     public void setId(Long id) {
         this.id = id;
@@ -94,16 +94,16 @@ public class Ticket {
         this.closedAt = closedAt;
     }
 
-    public void setRequester(User requester) {
+    public void setRequester(Users requester) {
         this.requester = requester;
     }
 
-    public void setAgent(User agent) {
+    public void setAgent(Users agent) {
         this.agent = agent;
     }
 
     public Ticket(Long id, String title, String description, Status status, Priority priority, Category categority,
-            LocalDateTime createdAt, User requester) {
+            LocalDateTime createdAt, Users requester) {
         this.id = id;
         this.title = title;
         this.description = description;

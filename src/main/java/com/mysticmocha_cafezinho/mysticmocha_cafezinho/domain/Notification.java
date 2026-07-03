@@ -31,9 +31,9 @@ public class Notification {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "users_id")
     @ManyToOne
-    private User user;
+    private Users user;
 
     public void setId(Long id) {
         this.id = id;
@@ -55,11 +55,11 @@ public class Notification {
         this.createdAt = createdAt;
     }
 
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
 
-    public Notification(Long id, String title, String message, Boolean read, LocalDateTime createdAt, User user) {
+    public Notification(Long id, String title, String message, Boolean read, LocalDateTime createdAt, Users user) {
         this.id = id;
         this.title = title;
         this.message = message;

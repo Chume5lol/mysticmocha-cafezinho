@@ -9,7 +9,7 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.User;
+import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Users;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -28,7 +28,7 @@ public class JwtService {
         return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateToken(User user) {
+    public String generateToken(Users user) {
 
         return Jwts.builder()
                 .subject(user.getNickname())
@@ -48,7 +48,7 @@ public class JwtService {
         .getSubject();
     }
 
-    public boolean isTokenValid(String token, User user) {
+    public boolean isTokenValid(String token, Users user) {
 
         return extractUsername(token).equals(user.getNickname());
     }
