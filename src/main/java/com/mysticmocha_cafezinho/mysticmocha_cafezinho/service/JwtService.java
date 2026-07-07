@@ -1,55 +1,40 @@
 package com.mysticmocha_cafezinho.mysticmocha_cafezinho.service;
 
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
-import java.util.Date;
+import java.time.Instant;
+import java.util.stream.Collectors;
 
-import javax.crypto.SecretKey;
-
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
-
-import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Users;
-
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-
 
 @Service
 public class JwtService {
 
-    @Value("${jwt.secret}")
-    private String secret;
+    private final JwtEncoder encoder;
 
-    @Value("${jwt.expiration}")
-    private Long expiration;
-
-    private Key getKey() {
-        return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    public JwtService(JwtEncoder encoder) {
+        this.encoder = encoder;
     }
 
-    public String generateToken(Users user) {
+    public String generateToken(Authentication authentication) {
+        Instant now = Instant.now();
+        long expiry = 3600L;
 
-        return Jwts.builder()
-                .subject(user.getNickname())
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getKey())
-                .compact();
+        String scopes = authentication.getAuthorities().stream()
+            .map(Object::toString)
+            .collect(Collectors.joining(" "));
+        
+        var claims = JwtClaimsSet.builder()
+            .issuer("spring-security-jwt")
+            .issuedAt(now)
+            .expiresAt(now.plusSeconds(expiry))
+            .subject(authentication.getName())
+            .claim("scope", scopes)
+            .build();
+
+        return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 
-    public String extractUsername(String token) {
-
-        return Jwts.parser()
-        .verifyWith((SecretKey) getKey())
-        .build()
-        .parseSignedClaims(token)
-        .getPayload()
-        .getSubject();
-    }
-
-    public boolean isTokenValid(String token, Users user) {
-
-        return extractUsername(token).equals(user.getNickname());
-    }
 }

@@ -1,6 +1,5 @@
 package com.mysticmocha_cafezinho.mysticmocha_cafezinho.dto;
 
-import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Department;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Users;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.enums.UserRole;
 
