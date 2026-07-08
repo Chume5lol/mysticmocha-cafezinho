@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -23,16 +24,16 @@ public class JwtService {
         long expiry = 3600L;
 
         String scopes = authentication.getAuthorities().stream()
-            .map(Object::toString)
-            .collect(Collectors.joining(" "));
-        
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(" "));
+
         var claims = JwtClaimsSet.builder()
-            .issuer("spring-security-jwt")
-            .issuedAt(now)
-            .expiresAt(now.plusSeconds(expiry))
-            .subject(authentication.getName())
-            .claim("scope", scopes)
-            .build();
+                .issuer("spring-security-jwt")
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(expiry))
+                .subject(authentication.getName())
+                .claim("scope", scopes)
+                .build();
 
         return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }

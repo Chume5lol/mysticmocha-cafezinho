@@ -4,6 +4,5 @@ public enum UserRole {
 
     USER,
     AGENT,
-    ADMINISTRATOR
-    
+    ADMINISTRATOR;
 }

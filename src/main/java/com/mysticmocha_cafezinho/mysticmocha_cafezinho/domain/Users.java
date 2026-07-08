@@ -1,16 +1,19 @@
 package com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.enums.UserRole;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -49,8 +52,8 @@ public class Users implements UserDetails{
     @Column(nullable = false)
     private String password;
 
-    @Column
-    @Enumerated
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
     @Column
@@ -119,7 +122,10 @@ public class Users implements UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        String role = "ROLE_"+userRole.name();
+        authorities.add(new SimpleGrantedAuthority(role));
+        return authorities;
     }
 
     @Override

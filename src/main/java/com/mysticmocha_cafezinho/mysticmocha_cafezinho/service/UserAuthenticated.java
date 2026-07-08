@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Users;
@@ -19,7 +20,8 @@ public class UserAuthenticated implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(() -> "read");
+        return List.of(
+                new SimpleGrantedAuthority("ROLE_" + users.getUserRole().name()));
     }
 
     @Override

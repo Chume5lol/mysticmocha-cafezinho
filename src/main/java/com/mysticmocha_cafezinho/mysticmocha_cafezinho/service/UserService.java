@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Department;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Users;
-import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.enums.UserRole;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.dto.UserDTO;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.repository.DepartmentRepository;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.repository.UserRepository;
@@ -39,7 +38,7 @@ public class UserService {
             user.setPassword(encryptedPassword);
             user.setEnable();
             user.setLastLogin(LocalDateTime.now());
-            user.setRole(UserRole.ADMINISTRATOR);
+            user.setRole(userDTO.getUserRole());
 
             return userRepository.save(user);
         } catch (Exception e) {

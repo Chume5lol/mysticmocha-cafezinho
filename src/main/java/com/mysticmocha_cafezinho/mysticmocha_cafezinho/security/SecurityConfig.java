@@ -39,7 +39,9 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(
-                    auth -> auth.requestMatchers("/auth/**", "/users/**").permitAll()
+                    auth -> auth.requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/users/me").permitAll()
+                        .requestMatchers("/users/register").hasAuthority("SCOPE_ROLE_ADMINISTRATOR")
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .oauth2ResourceServer(
