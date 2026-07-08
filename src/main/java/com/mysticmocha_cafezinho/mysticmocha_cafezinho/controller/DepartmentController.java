@@ -7,8 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Department;
 
+import lombok.RequiredArgsConstructor;
+
 @RequestMapping(name = "department")
 @RestController
+@RequiredArgsConstructor
 public class DepartmentController {
 
 

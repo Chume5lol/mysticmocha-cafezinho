@@ -34,6 +34,7 @@ public class SecurityConfig {
     private RSAPrivateKey priv;
     
 
+    // Filtro de segurança de rotas
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -41,7 +42,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                     auth -> auth.requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/users/me").permitAll()
-                        .requestMatchers("/users/register").hasAuthority("SCOPE_ROLE_ADMINISTRATOR")
+                        .requestMatchers("/ticket").permitAll()
+                        .requestMatchers("/users/register").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .oauth2ResourceServer(
@@ -50,11 +52,13 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // Decoder do token jwt
     @Bean
     JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(key).build();
     }
 
+    // Encoder do token jwt
     @Bean
     JwtEncoder jwtEncoder() {
         var jwk = new RSAKey.Builder(key).privateKey(priv).build();
@@ -62,11 +66,13 @@ public class SecurityConfig {
         return new NimbusJwtEncoder(jwks);
     }
 
+    // Encoder de senhas
     @Bean 
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // Bean do authenticationMananger
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();

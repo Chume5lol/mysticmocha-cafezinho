@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import javax.management.RuntimeErrorException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +13,14 @@ import com.mysticmocha_cafezinho.mysticmocha_cafezinho.dto.UserDTO;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.repository.DepartmentRepository;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private DepartmentRepository departmentRepository;
-
-    @Autowired
-    private UserRepository userRepository;
+    private final DepartmentRepository departmentRepository;
+    private final UserRepository userRepository;
 
     public Users registerUser(UserDTO userDTO) {
 

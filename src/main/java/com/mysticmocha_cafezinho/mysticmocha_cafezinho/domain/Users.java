@@ -36,10 +36,10 @@ public class Users implements UserDetails{
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nickname;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @JoinColumn(name = "department_id")
@@ -120,6 +120,7 @@ public class Users implements UserDetails{
         this.enable = true;
     }
 
+    // Cria as authorities utilizando essa funcao
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();

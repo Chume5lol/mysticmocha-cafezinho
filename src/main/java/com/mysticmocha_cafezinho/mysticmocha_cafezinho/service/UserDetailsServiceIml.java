@@ -7,19 +7,17 @@ import org.springframework.stereotype.Service;
 
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class UserDetailsServiceIml implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public UserDetailsServiceIml(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
+    //Decide como vai fazer login de usuário, no caso está pegando o nickname + password
     @Override
     public UserDetails loadUserByUsername(String nickname) {
-
-        System.out.println("Recebi nickname: " + nickname);
 
         return userRepository.findByNickname(nickname)
                 .map(UserAuthenticated::new)

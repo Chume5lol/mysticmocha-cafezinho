@@ -10,13 +10,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Users;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class UserAuthenticated implements UserDetails {
 
     private final Users users;
-
-    public UserAuthenticated(Users users) {
-        this.users = users;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

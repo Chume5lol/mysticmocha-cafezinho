@@ -6,18 +6,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.dto.LoginRequest;
+
+import lombok.RequiredArgsConstructor;
 @Service
+@RequiredArgsConstructor
 public class AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
-    public AuthenticationService(AuthenticationManager authenticationManager, JwtService jwtService) {
-        this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
-    }
 
-
+    // Gerando autenticação utilizando token e authenticationManager
     public String authenticate(LoginRequest request) {
 
         Authentication authentication = authenticationManager.authenticate(

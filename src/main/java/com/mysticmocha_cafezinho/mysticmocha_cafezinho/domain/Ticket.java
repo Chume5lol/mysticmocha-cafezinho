@@ -1,18 +1,22 @@
 package com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.enums.Priority;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.enums.Status;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
  
 @Entity
@@ -30,11 +34,11 @@ public class Ticket {
     private String description;
 
     @Column(nullable = false)
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Status status;
     
     @Column(nullable = false)
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Priority priority;
     
     @JoinColumn(name = "categority_id")
@@ -43,6 +47,9 @@ public class Ticket {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+    
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
     @Column
     private LocalDateTime updateTime;
@@ -100,6 +107,11 @@ public class Ticket {
 
     public void setAgent(Users agent) {
         this.agent = agent;
+    }
+
+    
+
+    public Ticket() {
     }
 
     public Ticket(Long id, String title, String description, Status status, Priority priority, Category categority,

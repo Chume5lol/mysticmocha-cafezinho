@@ -8,15 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.dto.LoginRequest;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.service.AuthenticationService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthenticationService authenticationService;
-
-    public AuthController(AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
-    }
 
     @PostMapping("authenticate")
     public String authenticate(@RequestBody LoginRequest request) {
