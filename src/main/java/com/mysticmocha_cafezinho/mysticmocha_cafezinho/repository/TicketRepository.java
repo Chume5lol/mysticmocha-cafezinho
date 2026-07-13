@@ -19,4 +19,13 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
             """)
     List<Ticket> findByRequester(@Param("id") Long id);
 
+    @Query("""
+            SELECT t
+            FROM Ticket t
+            WHERE t.requester.id = :userId
+            AND
+            t.id = :id
+            """)
+    List<Ticket> findByIdAndUser(@Param("id") Long id, @Param("userId") Long idUser);
+
 }

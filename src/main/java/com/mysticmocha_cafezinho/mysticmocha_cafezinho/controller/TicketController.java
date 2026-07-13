@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,11 @@ public class TicketController {
     public List<TicketResponse> ticketsView(Authentication authentication) {
 
         return ticketService.findAllByuserNickname(authentication.getName());
+    }
+
+    @GetMapping("/view/{id}")
+    public List<TicketResponse> uniqueTicketView(@PathVariable Long id, Authentication authentication) {
+        return ticketService.findByIdAndUser(authentication, id);
     }
 
 

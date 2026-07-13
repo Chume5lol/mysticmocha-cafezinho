@@ -25,6 +25,22 @@ public class TicketService {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
 
+    public List<TicketResponse> formartTicketDTO(List<Ticket> tickets) {
+        return tickets
+                .stream()
+                .map(ticket -> new TicketResponse(
+                        ticket.getId(),
+                        ticket.getTitle(),
+                        ticket.getDescription(),
+                        ticket.getStatus(),
+                        ticket.getPriority(),
+                        ticket.getRequester().getNickname(),
+                        ticket.getAgent() != null ? ticket.getAgent().getNickname() : null,
+                        ticket.getCategority() != null ? ticket.getCategority().getName() : null,
+                        ticket.getCreatedAt()))
+                .toList();
+    }
+
     public Ticket createTicket(TicketDTO ticketDTO, Authentication authentication) {
 
         try {
@@ -47,22 +63,22 @@ public class TicketService {
     public List<TicketResponse> findAllByuserNickname(String name) {
         try {
             Users user = userRepository.findByNickname(name).orElseThrow();
-            System.out.println("Usuário: " + user.getId());
-            return ticketRepository.findByRequester(user.getId())
-                    .stream()
-                    .map(ticket -> new TicketResponse(
-                            ticket.getId(),
-                            ticket.getTitle(),
-                            ticket.getDescription(),
-                            ticket.getStatus(),
-                            ticket.getPriority(),
-                            ticket.getRequester().getNickname(),
-                            ticket.getAgent() != null ? ticket.getAgent().getNickname() : null,
-                            ticket.getCategority() != null ? ticket.getCategority().getName() : null,
-                            ticket.getCreatedAt()))
-                    .toList();
+            return formartTicketDTO(ticketRepository.findByRequester(user.getId()));
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public List<TicketResponse> findByIdAndUser(Authentication authentication, Long id) {
+
+        try {
+            Users user = userRepository.findByNickname(authentication.getName()).orElseThrow();
+            Long idUser = user.getId();
+
+            return formartTicketDTO(ticketRepository.findByIdAndUser(id, idUser));
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
     }
 }
