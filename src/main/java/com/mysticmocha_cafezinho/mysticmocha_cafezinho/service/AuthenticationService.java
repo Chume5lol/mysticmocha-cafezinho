@@ -23,7 +23,7 @@ public class AuthenticationService {
                 new UsernamePasswordAuthenticationToken(
                         request.nickname(),
                         request.password()));
-
+                
         return jwtService.generateToken(authentication);
     }
 }

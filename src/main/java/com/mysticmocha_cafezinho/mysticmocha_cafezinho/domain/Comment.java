@@ -53,6 +53,9 @@ public class Comment {
         this.ticket = ticket;
     }
 
+    public Comment() {
+    }
+
     public Comment(Long id, String message, LocalDateTime createdAt, Users author, Ticket ticket) {
         this.id = id;
         this.message = message;
