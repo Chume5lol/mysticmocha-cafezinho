@@ -2,7 +2,6 @@ package com.mysticmocha_cafezinho.mysticmocha_cafezinho.controller;
 
 import java.util.List;
 
-import org.springframework.boot.jackson.autoconfigure.JacksonProperties.Json;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,15 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Comment;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Ticket;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.dto.CommentDTO;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.dto.TicketDTO;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.dto.TicketResponse;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.service.CommentService;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.service.TicketService;
-import com.nimbusds.jose.shaded.gson.annotations.JsonAdapter;
-
 import lombok.RequiredArgsConstructor;
 
 @RestController

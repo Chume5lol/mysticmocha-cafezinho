@@ -1,15 +1,17 @@
 package com.mysticmocha_cafezinho.mysticmocha_cafezinho.service;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
-import javax.management.RuntimeErrorException;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Department;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Users;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.dto.UserDTO;
+import com.mysticmocha_cafezinho.mysticmocha_cafezinho.dto.UserResponseDTO;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.repository.DepartmentRepository;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.repository.UserRepository;
 
@@ -36,13 +38,45 @@ public class UserService {
             user.setDepartment(department);
             user.setPassword(encryptedPassword);
             user.setEnable();
-            user.setLastLogin(LocalDateTime.now());
+            user.setLastLogin(null);
             user.setRole(userDTO.getUserRole());
 
             return userRepository.save(user);
         } catch (Exception e) {
-            throw new RuntimeErrorException(null, e.getMessage());
+            throw new RuntimeException("Dados para criação incorretos");
         }
 
+    }
+
+     public List<UserResponseDTO> formartUserDTO(Page<Users> users) {
+        return users
+                .stream()
+                .map(user -> new UserResponseDTO(
+                        user.getId(),
+                        user.getFistName(),
+                        user.getLastName(),
+                        user.getNickname(),
+                        user.getEmail(),
+                        user.getDepartment().getName(),
+                        user.getUserRole().name(),
+                        user.getLastLogin() != null ? user.getLastLogin().toString() : "Indefinido",
+                        user.getEnable()))
+                .toList();
+    }
+
+    public List<UserResponseDTO> findAll(int pageNumber, int quantityItens) {
+
+        try {
+            Pageable pageable = PageRequest.of(pageNumber, quantityItens);
+            Page<Users> usersPageable = userRepository.findAll(pageable);
+            List<UserResponseDTO> users = formartUserDTO(usersPageable);
+            return users;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public Long countAllUsers() {
+        return userRepository.count()/10;
     }
 }

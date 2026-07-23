@@ -11,4 +11,5 @@ import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Users;
 public interface UserRepository extends JpaRepository<Users, Long>{
 
     Optional<Users> findByNickname(String nickname);
+
 }
