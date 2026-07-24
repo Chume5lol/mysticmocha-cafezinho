@@ -48,7 +48,23 @@ public class UserService {
 
     }
 
-     public List<UserResponseDTO> formartUserDTO(Page<Users> users) {
+     public List<UserResponseDTO> formartUserDTOPages(Page<Users> users) {
+        return users
+                .stream()
+                .map(user -> new UserResponseDTO(
+                        user.getId(),
+                        user.getFistName(),
+                        user.getLastName(),
+                        user.getNickname(),
+                        user.getEmail(),
+                        user.getDepartment().getName(),
+                        user.getUserRole().name(),
+                        user.getLastLogin() != null ? user.getLastLogin().toString() : "Indefinido",
+                        user.getEnable()))
+                .toList();
+    }
+
+     public List<UserResponseDTO> formartUserDTOListUsers(List<Users> users) {
         return users
                 .stream()
                 .map(user -> new UserResponseDTO(
@@ -69,7 +85,7 @@ public class UserService {
         try {
             Pageable pageable = PageRequest.of(pageNumber, quantityItens);
             Page<Users> usersPageable = userRepository.findAll(pageable);
-            List<UserResponseDTO> users = formartUserDTO(usersPageable);
+            List<UserResponseDTO> users = formartUserDTOPages(usersPageable);
             return users;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -77,6 +93,8 @@ public class UserService {
     }
 
     public Long countAllUsers() {
-        return userRepository.count()/10;
+        return userRepository.count();
     }
+
+    
 }

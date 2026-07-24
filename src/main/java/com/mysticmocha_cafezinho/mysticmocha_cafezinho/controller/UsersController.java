@@ -36,7 +36,7 @@ public class UsersController {
         return ResponseEntity.ok(authentication.getAuthorities());
     }
 
-    @GetMapping("/findAll")
+    @GetMapping("/findAllLimited")
     public ResponseEntity<List<UserResponseDTO>> allUsers(Authentication authentication, @RequestParam(name = "pageNumber", required = false, defaultValue = "0") int pageNumber, @RequestParam(name = "quantityItens", required = false, defaultValue = "10") int quantityItens) {
 
         List<UserResponseDTO> users = userService.findAll(pageNumber, quantityItens);
@@ -50,4 +50,5 @@ public class UsersController {
 
         return ResponseEntity.ok(userService.countAllUsers());
     }
+
 }
