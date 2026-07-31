@@ -1,11 +1,13 @@
 package com.mysticmocha_cafezinho.mysticmocha_cafezinho.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Department;
+import com.mysticmocha_cafezinho.mysticmocha_cafezinho.service.DepartmentService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,9 +15,11 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class DepartmentController {
+    private final DepartmentService departmentService;
 
+    @PostMapping(name = "/create")
+    public ResponseEntity<Department> registerDepartment(@RequestBody String name) {
 
-    public ResponseEntity<Department> registerDepartment(@RequestBody String nome) {
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(departmentService.createDepartment(name));
     }
 }

@@ -1,6 +1,7 @@
 package com.mysticmocha_cafezinho.mysticmocha_cafezinho.service;
 
 import java.time.Instant;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
@@ -10,6 +11,9 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
+import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Category;
+import com.mysticmocha_cafezinho.mysticmocha_cafezinho.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -17,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class JwtService {
 
     private final JwtEncoder encoder;
+    private final UserRepository userRepository;
 
     //Gerar JWT Token pegando authorities + regras definidas
 
@@ -28,12 +33,15 @@ public class JwtService {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
 
+        Set<Category> categories = userRepository.findByNickname(authentication.getName()).orElseThrow().getCategories();
+
         var claims = JwtClaimsSet.builder()
                 .issuer("spring-security-jwt")
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expiry))
                 .subject(authentication.getName())
                 .claim("scope", scopes)
+                .claim("categories", categories)
                 .build();
 
         return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();

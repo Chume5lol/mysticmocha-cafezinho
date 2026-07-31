@@ -47,6 +47,7 @@ public class SecurityConfig {
                         auth -> auth.requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/users/me").permitAll()
                                 .requestMatchers("/ticket").permitAll()
+                                .requestMatchers("/department/**").permitAll()
                                 .requestMatchers("/users/register").permitAll()
                                 .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())

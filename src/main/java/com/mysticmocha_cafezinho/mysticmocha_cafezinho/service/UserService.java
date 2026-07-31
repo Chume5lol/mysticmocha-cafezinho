@@ -43,7 +43,7 @@ public class UserService {
 
             return userRepository.save(user);
         } catch (Exception e) {
-            throw new RuntimeException("Dados para criação incorretos");
+            throw new RuntimeException(e.getMessage());
         }
 
     }
@@ -96,5 +96,4 @@ public class UserService {
         return userRepository.count();
     }
 
-    
 }

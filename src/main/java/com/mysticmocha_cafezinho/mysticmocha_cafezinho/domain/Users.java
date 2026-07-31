@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,6 +20,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 
@@ -45,6 +48,14 @@ public class Users implements UserDetails{
     @JoinColumn(name = "department_id")
     @ManyToOne
     private Department department;
+
+    @ManyToMany
+    @JoinTable(
+        name = "user_categoroties",
+        joinColumns = @JoinColumn(name = "users_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Category> categories;
 
     @Column
     private LocalDateTime lastLogin;
@@ -102,22 +113,26 @@ public class Users implements UserDetails{
         this.enable = true;
     }
 
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
 
     public Users() {
     }
 
     public Users(Long id, String fistName, String lastName, String nickname, String email, Department department,
-            LocalDateTime lastLogin, String password, UserRole userRole) {
+            Set<Category> categories, LocalDateTime lastLogin, String password, UserRole userRole, Boolean enable) {
         this.id = id;
         this.fistName = fistName;
         this.lastName = lastName;
         this.nickname = nickname;
         this.email = email;
         this.department = department;
+        this.categories = categories;
         this.lastLogin = lastLogin;
         this.password = password;
         this.userRole = userRole;
-        this.enable = true;
+        this.enable = enable;
     }
 
     // Cria as authorities utilizando essa funcao

@@ -29,9 +29,8 @@ public class TicketController {
 
 
     // Users, Agents e Administrators 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Ticket> ticketCreation(@RequestBody TicketDTO ticket, Authentication authentication) {
-        
         Ticket tick = ticketService.createTicket(ticket, authentication);
 
         return ResponseEntity.ok(tick);
