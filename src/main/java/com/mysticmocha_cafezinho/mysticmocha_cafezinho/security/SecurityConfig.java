@@ -49,6 +49,7 @@ public class SecurityConfig {
                                 .requestMatchers("/ticket").permitAll()
                                 .requestMatchers("/department").permitAll()
                                 .requestMatchers("/users/register").permitAll()
+                                .requestMatchers("/category/create").permitAll()
                                 .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .oauth2ResourceServer(

@@ -26,4 +26,9 @@ public class DepartmentService {
 
         return departmentRepository.findAll();
     }
+
+    public Department findDepartment(Long id) {
+
+        return departmentRepository.findById(id).orElseThrow();
+    }
 }
