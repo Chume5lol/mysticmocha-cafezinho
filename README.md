@@ -1,7 +1,7 @@
-﻿# mysticmocha-cafezinho
-<h1>Bem vindo ao meu projeto: MysticMocha - Cafezinho</h1>
+﻿<h1>Bem vindo ao meu projeto: MysticMocha - Cafezinho</h1>
 
-<h2>Essa é uma versão gratuita de um projeto maior e não finalizado meu.</h2>
+<p>Essa é uma versão gratuita de um projeto maior e não finalizado meu.</p>
+
 
 <h2>O que é o MysticMocha - Cafezinho?</h2>
 
