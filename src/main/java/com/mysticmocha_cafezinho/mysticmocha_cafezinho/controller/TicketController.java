@@ -43,6 +43,12 @@ public class TicketController {
         return ticketService.findAllByuserNickname(authentication.getName());
     }
 
+    @GetMapping("/admin/viewAll")
+    public List<TicketResponse> adminTicketsAll() {
+
+        return ticketService.findAllFormated();
+    }
+
     @GetMapping("/view/{id}")
     public List<TicketResponse> uniqueTicketView(@PathVariable Long id, Authentication authentication) {
         return ticketService.findByIdAndUser(authentication, id);

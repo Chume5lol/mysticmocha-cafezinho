@@ -81,4 +81,15 @@ public class TicketService {
         }
 
     }
+
+    public List<TicketResponse> findAllFormated() {
+        try {
+            List<Ticket> tickets = ticketRepository.findAll();
+
+            return formartTicketDTO(tickets);
+        }
+        catch(Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }
