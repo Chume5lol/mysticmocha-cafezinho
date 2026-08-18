@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Department;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Users;
+import com.mysticmocha_cafezinho.mysticmocha_cafezinho.dto.UserChangeResponse;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.dto.UserDTO;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.dto.UserResponseDTO;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.repository.DepartmentRepository;
@@ -23,6 +24,7 @@ public class UserService {
 
     private final DepartmentRepository departmentRepository;
     private final UserRepository userRepository;
+
 
     public Users registerUser(UserDTO userDTO) {
 
@@ -48,7 +50,7 @@ public class UserService {
 
     }
 
-     public List<UserResponseDTO> formartUserDTOPages(Page<Users> users) {
+    public List<UserResponseDTO> formartUserDTOPages(Page<Users> users) {
         return users
                 .stream()
                 .map(user -> new UserResponseDTO(
@@ -64,7 +66,7 @@ public class UserService {
                 .toList();
     }
 
-     public List<UserResponseDTO> formartUserDTOListUsers(List<Users> users) {
+    public List<UserResponseDTO> formartUserDTOListUsers(List<Users> users) {
         return users
                 .stream()
                 .map(user -> new UserResponseDTO(
@@ -96,4 +98,35 @@ public class UserService {
         return userRepository.count();
     }
 
+    public Users changUsers(Long id) {
+        Users user = userRepository.findById(id).orElseThrow();
+
+        return userRepository.save(user);
+    }
+
+    public UserChangeResponse findById(Long id) {
+
+        try {
+
+            Users user = userRepository.findById(id).orElseThrow();
+
+            UserChangeResponse changeResponse = new UserChangeResponse();
+            changeResponse.setId(user.getId());
+            changeResponse.setFirstName(user.getFistName());
+            changeResponse.setLastName(user.getLastName());
+            changeResponse.setNickname(user.getNickname());
+            changeResponse.setEmail(user.getEmail());
+            changeResponse.setDepartment(user.getDepartment().getId());
+            changeResponse.setUserRole(user.getUserRole().name());
+            //Falta categorias, não tem ninguém com categoria até agora então não da pra testar
+            changeResponse.setStatus(user.getEnable());
+
+            return changeResponse;
+
+        } catch (
+
+        Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }
