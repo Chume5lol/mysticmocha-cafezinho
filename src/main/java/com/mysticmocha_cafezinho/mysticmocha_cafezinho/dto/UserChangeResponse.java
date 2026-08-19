@@ -1,6 +1,5 @@
 package com.mysticmocha_cafezinho.mysticmocha_cafezinho.dto;
 
-import java.util.List;
 import java.util.Set;
 
 import lombok.Getter;
@@ -34,6 +33,8 @@ public class UserChangeResponse{
         this.userRole = userRole;
         this.status = status;
     }
+
+    
 
     
     

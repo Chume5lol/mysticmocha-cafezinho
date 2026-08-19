@@ -54,10 +54,10 @@ public class UsersController {
         return ResponseEntity.ok(userService.countAllUsers());
     }
 
-    @PutMapping("/admin/changeUser/{id}")
-    public ResponseEntity<Users> changeUsers(@PathVariable(name = "id", required =  true) Long id) {
-
-        return ResponseEntity.ok(null);
+    @PutMapping("/admin/changeUser/{idUser}")
+    public ResponseEntity<Users> changeUsers(@PathVariable(name = "idUser") Long idUser, @RequestBody UserChangeResponse userChangeResponse) {
+        System.out.println(userChangeResponse.getFirstName());
+        return ResponseEntity.ok(userService.changUsers(userChangeResponse));
     }
 
     @GetMapping("/findUniqueById/{id}")

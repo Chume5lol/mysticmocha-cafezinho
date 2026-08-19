@@ -109,8 +109,9 @@ public class Users implements UserDetails{
         this.userRole = userRole;
     }
 
-    public void setEnable() {
-        this.enable = true;
+    
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
     }
 
     public void setCategories(Set<Category> categories) {

@@ -5,11 +5,13 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Department;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.Users;
+import com.mysticmocha_cafezinho.mysticmocha_cafezinho.domain.enums.UserRole;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.dto.UserChangeResponse;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.dto.UserDTO;
 import com.mysticmocha_cafezinho.mysticmocha_cafezinho.dto.UserResponseDTO;
@@ -23,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
     private final DepartmentRepository departmentRepository;
+    private final DepartmentService departmentService;
     private final UserRepository userRepository;
 
 
@@ -39,7 +42,7 @@ public class UserService {
             user.setEmail(userDTO.getEmail());
             user.setDepartment(department);
             user.setPassword(encryptedPassword);
-            user.setEnable();
+            user.setEnable(true);
             user.setLastLogin(null);
             user.setRole(userDTO.getUserRole());
 
@@ -85,7 +88,7 @@ public class UserService {
     public List<UserResponseDTO> findAll(int pageNumber, int quantityItens) {
 
         try {
-            Pageable pageable = PageRequest.of(pageNumber, quantityItens);
+            Pageable pageable = PageRequest.of(pageNumber, quantityItens, Sort.by(Sort.Direction.ASC, "id"));
             Page<Users> usersPageable = userRepository.findAll(pageable);
             List<UserResponseDTO> users = formartUserDTOPages(usersPageable);
             return users;
@@ -98,8 +101,16 @@ public class UserService {
         return userRepository.count();
     }
 
-    public Users changUsers(Long id) {
-        Users user = userRepository.findById(id).orElseThrow();
+    public Users changUsers( UserChangeResponse changeResponse) {
+        Users user = userRepository.findById(changeResponse.getId()).orElseThrow();
+        user.setFistName(changeResponse.getFirstName());
+        user.setLastName(changeResponse.getLastName());
+        user.setEmail(changeResponse.getEmail());
+        user.setNickname(changeResponse.getNickname());
+        user.setDepartment(departmentService.findDepartment(changeResponse.getDepartment()));
+        user.setCategories(null);
+        user.setRole(UserRole.valueOf(changeResponse.getUserRole()));
+        user.setEnable(changeResponse.getStatus());
 
         return userRepository.save(user);
     }
